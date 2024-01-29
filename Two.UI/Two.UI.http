@@ -1,0 +1,6 @@
+@Two.UI_HostAddress = http://localhost:5175
+
+GET {{Two.UI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
