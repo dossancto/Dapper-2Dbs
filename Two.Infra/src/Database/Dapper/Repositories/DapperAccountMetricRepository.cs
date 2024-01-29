@@ -4,37 +4,37 @@ using Two.Application.Features.Metrics.Entities;
 using NanoidDotNet;
 using Two.Infra.Database.Dapper.Contexts;
 using Dapper;
+using Two.Infra.Database.Dapper.Utils;
 
 namespace Two.Infra.Database.Dapper.Repositories;
 
 public class DapperAccountMetricRepository : IAccountMetricsRepository
 {
-    private const string TABLE_NAME = "AccountsMetric";
+    private string TABLE_NAME { get; }
     private readonly AdminDbContext _context;
 
     public DapperAccountMetricRepository(AdminDbContext context)
-    => _context = context;
-
-    public Task<List<AccountMetrics>> All()
     {
-        throw new NotImplementedException();
+        _context = context;
+        TABLE_NAME = context.AccountMetrics;
     }
+
+    public Task<IEnumerable<AccountMetrics>> All()
+    => _context
+    .AccountMetrics
+    // .All();
+    .Select(x => [nameof(x.Id)])
+    .All();
 
     public Task Delete(string id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<AccountMetrics?> FindById(string id)
-    {
-        using var connection = _context.CreateConnection();
-
-        var query = @$"SELECT * from ""{TABLE_NAME}"" WHERE Id = @Id";
-
-        return await connection
-            .QuerySingleOrDefaultAsync<AccountMetrics>
-            (query, new { Id = id });
-    }
+    public Task<AccountMetrics?> FindById(string id)
+      => _context
+              .AccountMetrics
+              .Find(id);
 
     public async Task<AccountMetrics> Save(AccountMetrics metric)
     {

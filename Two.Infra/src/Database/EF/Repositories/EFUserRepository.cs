@@ -57,4 +57,9 @@ public class EFUserRepository : IUserRepository
 
         await _context.SaveChangesAsync();
     }
+
+    public Task<IEnumerable<User>> All()
+    {
+        throw new NotImplementedException();
+    }
 }

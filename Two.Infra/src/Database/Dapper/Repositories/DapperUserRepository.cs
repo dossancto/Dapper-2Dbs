@@ -1,4 +1,5 @@
 using Two.Application.Features.Users.Data;
+using Two.Infra.Database.Dapper.Utils;
 using Two.Application.Features.Users.Entities;
 
 using NanoidDotNet;
@@ -25,7 +26,7 @@ public class DapperUserRepository : IUserRepository
 
         user.Id = Nanoid.Generate();
 
-        var query = @"INSERT INTO ""Account"" VALUES (@Id, @Name, @Name, @Email, @HashedPassword, @Salt)";
+        var query = @$"INSERT INTO ""{_context.Account}"" VALUES (@Id, @Name, @Name, @Email, @HashedPassword, @Salt)";
 
         await connection.ExecuteAsync(query, user);
 
@@ -38,16 +39,15 @@ public class DapperUserRepository : IUserRepository
       => throw new NotImplementedException();
 
     public async Task<User?> GetById(string id)
-    {
-        using var connection = _context.CreateConnection();
-
-        var query = @"SELECT * from ""Account"" WHERE Id = @Id";
-
-        return await connection.QuerySingleOrDefaultAsync<User>(query, new { Id = id });
-    }
+      => await _context.Account.Find(id);
 
     public Task DeleteById(string id)
     {
         throw new NotImplementedException();
     }
+
+    public Task<IEnumerable<User>> All()
+    => _context.Account
+               .Select(x => new { x.Id, x.Name })
+               .All();
 }

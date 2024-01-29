@@ -32,7 +32,7 @@ public class SelectAccountMetricsUseCase
     /// Retrieves all notes.
     /// </summary>
     /// <returns>The task result contains a list of all notes.</returns>
-    public Task<List<AccountMetrics>> All()
+    public Task<IEnumerable<AccountMetrics>> All()
     => _AccountMetricsRepository.All();
 }
 

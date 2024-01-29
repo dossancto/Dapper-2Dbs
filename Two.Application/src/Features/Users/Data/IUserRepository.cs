@@ -9,6 +9,8 @@ public interface IUserRepository
     Task<User?> GetByEmail(string email);
     Task<User?> GetById(string id);
 
+    Task<IEnumerable<User>> All();
+
     Task DeleteById(string id);
 }
 

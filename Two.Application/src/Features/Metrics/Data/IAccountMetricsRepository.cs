@@ -33,7 +33,7 @@ public interface IAccountMetricsRepository
    /// List all AccountMetrics
    /// </summary>
    /// <returns>A list of all AccountMetrics</returns>
-   Task<List<AccountMetrics>> All();
+   Task<IEnumerable<AccountMetrics>> All();
 
    /// <summary>
    /// Delete a AccountMetrics

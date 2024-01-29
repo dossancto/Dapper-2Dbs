@@ -2,13 +2,13 @@ namespace Two.Application.Features.Users.Entities;
 
 public class User
 {
-    public string Id { get; set; } = default!;
+    public string Id { get; set; } = string.Empty;
 
-    public string Name { get; set; } = default!;
+    public string Name { get; set; } = string.Empty;
 
-    public string Email { get; set; } = default!;
+    public string Email { get; set; } = string.Empty;
 
-    public string HashedPassword { get; set; } = default!;
+    public string HashedPassword { get; set; } = string.Empty;
 
-    public string Salt { get; set; } = default!;
+    public string Salt { get; set; } = string.Empty;
 }
