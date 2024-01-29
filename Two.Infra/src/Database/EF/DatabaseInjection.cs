@@ -2,7 +2,7 @@ using Two.Infra.Database.EF.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Two.Infra.Database;
+namespace Two.Infra.Database.EF;
 
 public static class DatabaseInjection
 {

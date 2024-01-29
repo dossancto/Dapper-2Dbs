@@ -1,4 +1,4 @@
-using Two.Infra.Database;
+using Two.Infra.Database.Dapper;
 using DotNetEnv;
 using Microsoft.Extensions.DependencyInjection;
 
