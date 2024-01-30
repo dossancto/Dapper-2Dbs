@@ -22,8 +22,6 @@ public class DapperAccountMetricRepository : IAccountMetricsRepository
     public Task<IEnumerable<AccountMetrics>> All()
     => _context
     .AccountMetrics
-    // .All();
-    .Select(x => [nameof(x.Id)])
     .All();
 
     public Task Delete(string id)

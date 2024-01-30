@@ -29,7 +29,7 @@ public static class DapperBaseRepositoryExtension
         var properties = t.GetProperties().Select(x => x.Name);
         var fields = string.Join(", ", properties);
 
-        var sql = $@"SELECT {fields} FROM ""{table.TableName}"";";
+        var sql = $@"SELECT {fields} FROM ""{table.TableName}""";
 
         return new(sql, table);
     }
