@@ -29,6 +29,18 @@ public class DapperUserRepository : IUserRepository
 
         var query = @$"INSERT INTO ""{_context.Account.TableName}"" VALUES (@Id, @Name, @Name, @Email, @HashedPassword, @Salt)";
 
+        // _context.Account
+        //         .Insert(x => new { x.Id })
+        //         .Values(new { Id = "dasda" });
+
+        // _context.Account
+        //         .Insert()
+        //         .Values(user);
+
+        // _context.Account
+        //         .InsertWithPk()
+        //         .Values(user);
+
         await connection.ExecuteAsync(query, user);
 
         var createdUser = (await _context.Account

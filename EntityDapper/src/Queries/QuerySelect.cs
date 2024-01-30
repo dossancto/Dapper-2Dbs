@@ -13,6 +13,10 @@ public static class QuerySelect
 
         var sql = $@"SELECT {fields} FROM ""{table.TableName}""";
 
-        return new(sql, table);
+        var query = new SQLQueryable<T>(sql, table);
+
+        query.Details.SelectFields = properties.ToList();
+
+        return query;
     }
 }

@@ -8,7 +8,8 @@ public interface IQueriable<T>
 
 public class QueryDetails
 {
-    public IList<WhereClause> WhereClauses { get; set; } = new List<WhereClause>();
+    public IList<string> SelectFields { get; internal set; } = new List<string>();
+    public IList<WhereClause> WhereClauses { get; internal set; } = new List<WhereClause>();
 }
 
 public class SQLQueryable<T> : IQueriable<T> where T : class, new()
