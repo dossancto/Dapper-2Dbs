@@ -1,3 +1,6 @@
+using System.Linq.Expressions;
+using System.Reflection;
+
 namespace EntityDapper.Queries;
 
 public enum ComOperator
@@ -24,6 +27,18 @@ public static class WhereQuery
         var param = predicate.Parameters[0];
         var paramName = param.Name;
         var body = predicate.Body;
+        string? value = null;
+
+        var b = (BinaryExpression)body;
+
+        if (b.Right is MemberExpression memberExpression)
+        {
+            var objectMember = Expression.Convert(memberExpression, typeof(object));
+            var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+            var getter = getterLambda.Compile();
+            value = $"'{getter()}'";
+        }
+
         var operatorType = body.ReduceExtensions().NodeType;
         var content = predicate.Body.ToString();
 
@@ -40,9 +55,11 @@ public static class WhereQuery
         var whereClause = new WhereClause
         {
             Column = args.ElementAt(0),
-            TargetValue = args.ElementAt(1),
+            TargetValue = value ?? args.ElementAt(1),
             Operator = operatorType
         };
+
+        Console.WriteLine(new { whereClause.Column, whereClause.Operator, whereClause.TargetValue });
 
         query.Details.WhereClauses.Add(whereClause);
 
@@ -54,6 +71,7 @@ public static class WhereQuery
 
         for (int i = 0; i < inputList.Count; i++)
         {
+            Console.WriteLine(inputList[i].ToString());
             if (i % 2 == 0)
             {
                 oddIndexedItems.Add(inputList[i]);

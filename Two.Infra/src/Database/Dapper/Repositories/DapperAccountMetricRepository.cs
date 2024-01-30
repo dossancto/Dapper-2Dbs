@@ -1,6 +1,8 @@
 using Two.Application.Features.Metrics.Data;
 using Two.Application.Features.Metrics.Entities;
 
+using EntityDapper.Queries;
+
 using NanoidDotNet;
 using Two.Infra.Database.Dapper.Contexts;
 using Dapper;
@@ -21,18 +23,22 @@ public class DapperAccountMetricRepository : IAccountMetricsRepository
 
     public Task<IEnumerable<AccountMetrics>> All()
     => _context
-    .AccountMetrics
-    .All();
+            .AccountMetrics
+            .Select(x => new { x.Id })
+            .FindAll();
 
     public Task Delete(string id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<AccountMetrics?> FindById(string id)
-      => _context
+    public async Task<AccountMetrics?> FindById(string id)
+      => (await _context
               .AccountMetrics
-              .Find(id);
+              .Select(x => new { x.Id })
+              .Where(x => x.Id == id)
+              .FindAll())
+              .FirstOrDefault();
 
     public async Task<AccountMetrics> Save(AccountMetrics metric)
     {
