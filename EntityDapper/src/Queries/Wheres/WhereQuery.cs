@@ -31,10 +31,11 @@ public static class WhereQuery
                           .Replace(")", "")
                           .Replace("(", "")
                           .Replace("\"", "'")
+                          .Replace($"{paramName}.", "")
                           .Split(" ")
                           .ToList();
 
-        var args = GetOddIndexedItems(tokens).Select(x => x.Replace($"{paramName}.", ""));
+        var args = GetOddIndexedItems(tokens);
 
         var whereClause = new WhereClause
         {

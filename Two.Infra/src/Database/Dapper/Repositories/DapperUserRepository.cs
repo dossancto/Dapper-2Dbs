@@ -40,13 +40,13 @@ public class DapperUserRepository : IUserRepository
     => (await _context.Account
                .Select(x => new { x.Id })
                .Where(x => x.Id == "a")
-               .Todos()).FirstOrDefault();
+               .FindAll()).FirstOrDefault();
 
     public async Task<User?> GetById(string id)
     => (await _context.Account
                .Select(x => new { x.Id })
                .Where(x => x.Id == "a")
-               .Todos()).FirstOrDefault();
+               .FindAll()).FirstOrDefault();
 
     public Task DeleteById(string id)
     {
@@ -55,7 +55,15 @@ public class DapperUserRepository : IUserRepository
 
     public async Task<IEnumerable<User>> All()
     => await _context.Account
-               .Select(x => new { x.Id })
+               .Select(x => new { x.Id, x.Email })
                .Where(x => x.Id == "Ey7Y_uX7sZnJ11ni391GD")
-               .Todos();
+               .Where(x => x.Email == "test@test.com")
+               .FindAll();
+
+    // Generated SQL
+    // ==================
+    // SELECT Id, Email
+    // FROM "Account"
+    // WHERE Id = 'Ey7Y_uX7sZnJ11ni391GD'
+    // AND Email = 'test@test.com'
 }

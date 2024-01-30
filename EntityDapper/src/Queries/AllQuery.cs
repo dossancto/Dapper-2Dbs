@@ -5,7 +5,7 @@ namespace EntityDapper.Queries;
 
 public static class FindTodos
 {
-    public static async Task<IEnumerable<T>> Todos<T>(this SQLQueryable<T> table) where T : class, new()
+    public static async Task<IEnumerable<T>> FindAll<T>(this SQLQueryable<T> table) where T : class, new()
     {
         using var connection = table.Table.Context.CreateConnection();
 
@@ -34,6 +34,7 @@ public static class FindTodos
         return op switch
         {
             ExpressionType.Equal => "=",
+            ExpressionType.Or => "or",
             _ => throw new NotImplementedException()
         };
     }
