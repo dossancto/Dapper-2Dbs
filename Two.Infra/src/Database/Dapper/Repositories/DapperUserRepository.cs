@@ -27,11 +27,15 @@ public class DapperUserRepository : IUserRepository
 
         user.Id = Nanoid.Generate();
 
-        var query = @$"INSERT INTO ""{_context.Account}"" VALUES (@Id, @Name, @Name, @Email, @HashedPassword, @Salt)";
+        var query = @$"INSERT INTO ""{_context.Account.TableName}"" VALUES (@Id, @Name, @Name, @Email, @HashedPassword, @Salt)";
 
         await connection.ExecuteAsync(query, user);
 
-        var createdUser = await GetById(user.Id);
+        var createdUser = (await _context.Account
+               .Select(x => new { x.Id, x.Name, x.Email, x.Salt })
+               .Where(x => x.Id == user.Id)
+               .FindAll())
+               .FirstOrDefault();
 
         return createdUser!;
     }
