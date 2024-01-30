@@ -1,5 +1,6 @@
 using Two.Application.Features.Users.Data;
 using Two.Infra.Database.Dapper.Utils;
+using EntityDapper.Queries;
 using Two.Application.Features.Users.Entities;
 
 using NanoidDotNet;
@@ -35,19 +36,26 @@ public class DapperUserRepository : IUserRepository
         return createdUser!;
     }
 
-    public Task<User?> GetByEmail(string email)
-      => throw new NotImplementedException();
+    public async Task<User?> GetByEmail(string email)
+    => (await _context.Account
+               .Select(x => new { x.Id })
+               .Where(x => x.Id == "a")
+               .Todos()).FirstOrDefault();
 
     public async Task<User?> GetById(string id)
-      => await _context.Account.Find(id);
+    => (await _context.Account
+               .Select(x => new { x.Id })
+               .Where(x => x.Id == "a")
+               .Todos()).FirstOrDefault();
 
     public Task DeleteById(string id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<User>> All()
-    => _context.Account
-               .Select(x => new { x.Id, x.Name })
-               .All();
+    public async Task<IEnumerable<User>> All()
+    => await _context.Account
+               .Select(x => new { x.Id })
+               .Where(x => x.Id == "Ey7Y_uX7sZnJ11ni391GD")
+               .Todos();
 }

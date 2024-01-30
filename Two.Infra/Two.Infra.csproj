@@ -17,6 +17,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Two.Application\Two.Application.csproj" />
     <ProjectReference Include="..\Two.Adapters\Two.Adapters.csproj" />
+    <ProjectReference Include="..\EntityDapper\EntityDapper.csproj" />
   </ItemGroup>
 
 </Project>
